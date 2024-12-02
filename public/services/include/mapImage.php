@@ -191,7 +191,8 @@ class mapImage {
             $parameters = array(
                 'LAYERS'=>$this->vectorId,
                 'VERSION'=>'1.1.1',
-                'FORMAT'=>'image/png'
+                'FORMAT'=>'image/png',
+                'GC_SESSION_ID' => session_id()
             );
             array_push($this->wmsList, array('URL'=>$url, 'SERVICE'=>'WMS', 'PARAMETERS'=>$parameters));
         }
@@ -364,6 +365,9 @@ class mapImage {
 
         $vectors = array();
         foreach($this->options['vectors'] as $vector) {
+            if (isset($vector['printoptions'])) {
+                $_SESSION['VECTOR_PRINT_OPTIONS'] = $vector['printoptions'];
+            }
             $type = $vector['type'];
             if(!isset(self::$vectorTypes[$type])) continue;
             if(!isset($vectors[$type])) $vectors[$type] = array();

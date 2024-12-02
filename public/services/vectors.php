@@ -4,7 +4,7 @@ require_once 'include/mapImage.php';
 require_once ROOT_PATH . 'lib/GCService.php';
 
 $gcService = GCService::instance();
-$gcService->startSession();
+$gcService->startSession(true);
 
 function outputError($msg) {
 	header("Status: 500 Internal Server Error");
@@ -174,9 +174,14 @@ EOMAP;
 		}
         $oLay->set('opacity', $vectorOpacity);
         $oLay->set('sizeunits', MS_PIXELS);
-		$oLay->set('symbolscaledenom', 500);
 		$oLay->set('status', MS_ON);
 		$oLay->set('labelitem', 'label');
+
+		if (isset($_SESSION['VECTOR_PRINT_OPTIONS'])) {
+			foreach($_SESSION['VECTOR_PRINT_OPTIONS'] as $opt => $opt_val) {
+				$oLay->set($opt, $opt_val);
+			}
+		}
 
 		if (defined('PRINT_VECTORS_USE_SLD') && PRINT_VECTORS_USE_SLD == FALSE) {
 			// **** Set class
