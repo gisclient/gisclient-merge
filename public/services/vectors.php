@@ -270,6 +270,8 @@ EOMAP;
 		}
 	}
 
+	unset($_SESSION['VECTOR_PRINT_OPTIONS']);
+
     $objRequest->setParameter('LAYERS', implode(",",$layersToInclude));
 
     if($enableDebug) {
